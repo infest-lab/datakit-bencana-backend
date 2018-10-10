@@ -77,6 +77,14 @@ class PointService {
     }
     getDemographies(id:string){
     	return this.DemographyModel.find({point:id});
+    }
+    statistik(){
+        return {
+            pointsCount: this.PointModel.countDocuments(),
+            demandsCount: this.DemandModel.countDocuments(),
+            suppliesCount: this.SupplyModel.countDocuments(),
+            activitiesCount: this.ActivityModel.countDocuments()
+        }
     }    
 
 }

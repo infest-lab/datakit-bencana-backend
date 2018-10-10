@@ -244,6 +244,7 @@ type Point{
 	supplies: [Supply]
 	demographies: [Demography]
 	activities: [Activity]
+	lastDemography: Demography
 }
 
 input PointInput{
@@ -375,6 +376,13 @@ input UserInput{
 	profile: UserProfileInput
 }
 
+type Statistik{
+	pointsCount: Int
+	demandsCount: Int
+	suppliesCount: Int
+	activitiesCount: Int
+}
+
 type Query{
 	point(id: ID!) : Point
 	points(limit: Int, skip: Int, orderBy: String, asc: Boolean) : [Point]
@@ -383,9 +391,11 @@ type Query{
 	pointsByCategory(category: String!): [Point]
 	getUser(email: String!): User
 	getUsers(limit: Int, skip: Int, orderBy: String, asc: Boolean): [User]
-	demands(pointId: ID!):[Demand]
-	supplies(pointId: ID!):[Supply]
-	activities(pointId: ID!):[Activity]
+	demands(pointId: ID!): [Demand]
+	supplies(pointId: ID!): [Supply]
+	activities(pointId: ID!): [Activity]
+	lastDemography(pointId: ID!): Demography
+	statistik: Statistik
 }
 type Mutation{
 	createPoint(input: PointInput!): Point
@@ -418,6 +428,7 @@ type Subscription {
 	demandAdded: Demand
 	supplyAdded: Supply
 	activityAdded: Activity
+	demographyAdded: Demography
 }
 # we need to tell the server which types represent the root query
 # and root mutation types. We call them RootQuery and RootMutation by convention.

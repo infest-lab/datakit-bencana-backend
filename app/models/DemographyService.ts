@@ -38,6 +38,12 @@ class DemographyService {
     getUser(id:string){
     	return this.UserModel.findById(id);
     }
+    last(pointId:string){
+        return this.DemographyModel.find({point:pointId}).sort({_id:-1})
+        .then(demo => {
+            return demo[0];
+        });
+    }
 }
 
 export default new DemographyService(DemographyModel, UserModel);

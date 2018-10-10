@@ -22,6 +22,9 @@ export const pubsub = new PubSub();
 
 const server = new ApolloServer({
   schema,
+  context: ({ req }:any) => ({
+    headers: req.headers
+  })
 });
 
 server.listen({
