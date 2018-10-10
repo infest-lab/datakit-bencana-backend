@@ -1,0 +1,49 @@
+{
+  "name": "gerbangsulteng-backend",
+  "version": "1.0.0",
+  "description": "Kolaborasi Data Respon Bencana Sulteng",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --watch app && tslint-check",
+    "start": "nodemon ./app/index.ts",
+    "build": "tsc",
+    "prod": "npm run build  && npm run tslint && npm run start-prod",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "start-prod": "nodemon ./dist/server.ts",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json"
+  },
+  "keywords": [
+    "gerbangsulteng",
+    "sulteng",
+    "gempa",
+    "tsunami"
+  ],
+  "author": "khayat@infest.or.id",
+  "license": "MIT",
+  "dependencies": {
+    "@types/bluebird": "^3.5.24",
+    "@types/moment": "^2.13.0",
+    "@types/moment-timezone": "^0.5.9",
+    "apollo-server": "^2.1.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
+    "fs": "0.0.1-security",
+    "graphql": "^0.13.2",
+    "graphql-tools": "^4.0.0",
+    "moment-timezone": "^0.5.21",
+    "mongoose": "^5.3.2",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^4.0.3",
+    "@types/graphql": "^14.0.1",
+    "@types/mongoose": "^5.2.18",
+    "@types/winston": "^2.4.4",
+    "graphql-typings": "0.0.1-beta-2",
+    "nodemon": "^1.18.4",
+    "prettier": "^1.14.3",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.1"
+  }
+}
