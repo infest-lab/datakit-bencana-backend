@@ -20,11 +20,40 @@ const schema: GraphQLSchema = schemas;
 
 export const pubsub = new PubSub();
 
+function validateApiKey(apikey: any){
+	if(config.registeredApiKeys.indexOf(apikey) !== -1) return true;
+	return false;
+}
+
 const server = new ApolloServer({
   schema,
-  context: ({ req }:any) => ({
-    headers: req.headers
-  })
+  context: ({req}:any={}) => {
+  	//console.log(req)
+  	if(typeof req !== 'undefined' && typeof req.headers !== 'undefined'){
+  		if(typeof req.headers.datakit_api_key !== 'undefined'){
+  			if(validateApiKey(req.headers.datakit_api_key)){
+  				//console.log('authorized')
+	        	return {
+	        		authorized: true
+	        	}
+	        }
+  		}
+  		throw new Error('Forbidden Access. It needs valid api key for authentication');
+  	}
+  },
+  subscriptions: {
+    onConnect: (connectionParams:any, webSocket, context) => {
+    	//console.log(webSocket)
+		if (connectionParams.datakit_api_key) {
+			if(validateApiKey(connectionParams.datakit_api_key)){
+				return {
+					authorized: true
+				}
+			}         
+		}
+		throw new Error('Forbidden Access. It needs valid api key for authentication');
+    },
+  },
 });
 
 server.listen({
