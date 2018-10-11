@@ -12,12 +12,13 @@ const SUPPLY_ADDED = 'SUPPLY_ADDED';
 const ACTIVITY_ADDED = 'ACTIVITY_ADDED';
 const DEMOGRAPHY_ADDED = 'DEMOGRAPHY_ADDED';
 
-function validRequest({headers}: any){
-	if(typeof headers['x-api-key'] !== undefined && headers['x-api-key'] !== ''){
-		if(config.registeredApiKeys.indexOf(headers['x-api-key']) !== -1) return true;
+/*function validRequest(context: any){
+	let headers = (typeof context.headers !== undefined) ? context.headers : null;
+	if(typeof headers['datakit_api_key'] !== undefined && headers['datakit_api_key'] !== ''){
+		if(config.registeredApiKeys.indexOf(headers['datakit_api_key']) !== -1) return true;
 	}
 	return false;
-}
+}*/
 
 const resolvers = {
 	Subscription: {
@@ -36,12 +37,13 @@ const resolvers = {
     },
 	Query:{
 		point(_:any, {id}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			console.log(context)
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			return PointService.get(id);
 		},
 		points(_:any, args:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
-			
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			console.log(context)
 			let params = {
 				limit: 50,
 				skip: 0,
@@ -52,22 +54,22 @@ const resolvers = {
 			return PointService.list(params);
 		},
 		search(_:any, args:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//////if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return PointService.search(args.q);
 		},
 		pointsByCategory(_:any, {category}: any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//////if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return PointService.byCategory(category);
 		},
 		getUser(_:any, {email}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			////if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return UserService.byEmail(email);
 		},
 		getUsers(_:any, args:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			var params = {
 				limit: 50,
@@ -79,39 +81,39 @@ const resolvers = {
 			return UserService.list(params);
 		},
 		demands(_:any, {pointId}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return DemandService.byPoint(pointId);
 		},
 		supplies(_:any, {pointId}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return SupplyService.byPoint(pointId);
 		},
 		activities(_:any, {pointId}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return SupplyService.byPoint(pointId);
 		},
 		lastDemography(_:any, {pointId}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return DemographyService.last(pointId);
 		},
 		statistik(_:any, args:any, context:any){
-				if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			////if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return PointService.statistik();
 		},
 	},
 	Mutation:{
 		createPoint(_:any, {input}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return PointService.add(input);
 		},
 		addDemand(_:any, {input}:any, context:any){	
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 							
 		    return DemandService.add(input).then(created => {
 		    	pubsub.publish(DEMAND_ADDED, { demandAdded: created });
@@ -121,17 +123,17 @@ const resolvers = {
 		    });
 		},
 		verifyDemand(_:any, {id}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 						
 		    return DemandService.verify(id);
 		},
 		closeDemand(_:any, {id}:any, context:any){	
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 					
 		    return DemandService.close(id);
 		},
 		addSupply(_:any, {input}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return SupplyService.add(input).then(created => {
 		    	pubsub.publish(SUPPLY_ADDED, { supplyAdded: created });
@@ -139,12 +141,12 @@ const resolvers = {
 		    });
 		},
 		verifySupply(_:any, {id}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 						
 		    return SupplyService.verify(id);
 		},
 		addActivity(_:any, {input}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			pubsub.publish(ACTIVITY_ADDED, { activityAdded: input });
 			return ActivityService.add(input).then(created => {
@@ -153,12 +155,12 @@ const resolvers = {
 		    });
 		},
 		verifyActivity(_:any, {id}:any, context:any){
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 						
 		    return ActivityService.verify(id);
 		},
 		addDemography(_:any, {input}:any, context:any){
-				if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return DemographyService.add(input).then(created => {
 		    	pubsub.publish(DEMOGRAPHY_ADDED, { demographyAdded: created });
@@ -166,12 +168,12 @@ const resolvers = {
 		    });
 		},
 		verifyDemography(_:any, {id}:any, context:any){	
-			if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 				
 		    return DemographyService.verify(id);
 		},
 		createUser(_:any, {input}:any, context:any){
-				if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
+			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
 			return UserService.add(input);
 		}		
