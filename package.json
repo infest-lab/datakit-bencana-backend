@@ -9,7 +9,7 @@
     "build": "tsc",
     "prod": "npm run build  && npm run tslint && npm run start-prod",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "start-prod": "nodemon ./dist/server.ts",
+    "start-prod": "nodemon ./dist/app/index.js",
     "tslint-check": "tslint-config-prettier-check ./tslint.json"
   },
   "keywords": [
