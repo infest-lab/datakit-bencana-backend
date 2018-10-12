@@ -3,7 +3,7 @@
     "class-name": true,
     "no-var-keyword": true,
     "whitespace": [
-      true,
+      false,
       "check-branch",
       "check-decl",
       "check-operator",
