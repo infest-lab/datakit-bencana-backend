@@ -71,7 +71,7 @@ const resolvers = {
 		getUsers(_:any, args:any, context:any){
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
-			var params = {
+			let params = {
 				limit: 50,
 				skip: 0,
 				orderBy: 'name',

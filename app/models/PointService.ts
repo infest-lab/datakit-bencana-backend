@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-let moment = require('moment-timezone');
+const moment = require('moment-timezone');
 
 import {
 	IPoint,
