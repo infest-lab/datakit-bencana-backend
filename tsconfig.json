@@ -10,6 +10,9 @@
     "baseUrl": ".",
     "experimentalDecorators": true,
     "allowJs": true,
+    "jsRules": {
+        "no-empty": true
+    },
     "lib": [
       "es5",
       "es6",
