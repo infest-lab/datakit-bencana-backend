@@ -44,8 +44,8 @@ const server = new ApolloServer({
   subscriptions: {
     onConnect: (connectionParams:any, webSocket, context) => {
     	//console.log(webSocket)
-		if (connectionParams.datakit_api_key) {
-			if(validateApiKey(connectionParams.x_datakit_api_key)){
+		if (typeof connectionParams['x-datakit-api-key'] !== 'undefined') {
+			if(validateApiKey(connectionParams['x-datakit-api-key'])){
 				return {
 					authorized: true
 				}
