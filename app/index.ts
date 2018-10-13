@@ -30,8 +30,8 @@ const server = new ApolloServer({
   context: ({req}:any={}) => {
   	//console.log(req)
   	if(typeof req !== 'undefined' && typeof req.headers !== 'undefined'){
-  		if(typeof req.headers.datakit_api_key !== 'undefined'){
-  			if(validateApiKey(req.headers.datakit_api_key)){
+  		if(req.headers.x_datakit_api_key !== 'undefined'){
+  			if(validateApiKey(req.headers.x_datakit_api_key)){
   				//console.log('authorized')
 	        	return {
 	        		authorized: true
@@ -45,7 +45,7 @@ const server = new ApolloServer({
     onConnect: (connectionParams:any, webSocket, context) => {
     	//console.log(webSocket)
 		if (connectionParams.datakit_api_key) {
-			if(validateApiKey(connectionParams.datakit_api_key)){
+			if(validateApiKey(connectionParams.x_datakit_api_key)){
 				return {
 					authorized: true
 				}
