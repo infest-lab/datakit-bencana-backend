@@ -30,8 +30,8 @@ const server = new ApolloServer({
   context: ({req}:any={}) => {
   	//console.log(req)
   	if(typeof req !== 'undefined' && typeof req.headers !== 'undefined'){
-  		if(req.headers.x_datakit_api_key !== 'undefined'){
-  			if(validateApiKey(req.headers.x_datakit_api_key)){
+  		if(req.headers.indexOf('x-datakit-api-key') !== -1){
+  			if(validateApiKey(req.headers['x-datakit-api-key'])){
   				//console.log('authorized')
 	        	return {
 	        		authorized: true
