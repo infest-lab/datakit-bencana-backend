@@ -16,6 +16,9 @@
     "prefer-const": true,
     "jsdoc-format": true,
     "no-console": [false, "log"],
-    "no-any": false
+    "no-any": false,
+    "jsRules":{
+      "no-empty": true
+    }
   }
 }
