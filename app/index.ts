@@ -27,6 +27,7 @@ function validateApiKey(apikey: any){
 
 const server = new ApolloServer({
   schema,
+  cors: true,
   context: ({req}:any={}) => {
   	//console.log(req)
   	if(typeof req !== 'undefined' && typeof req.headers !== 'undefined'){
