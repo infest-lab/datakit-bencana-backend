@@ -10,7 +10,7 @@ class UserService {
         moment.tz.setDefault("Asia/Jakarta");
     }
     getDate(){ 
-        return moment().format('YYYY-MM-DDTHH:mm:ssZz');
+        return moment().format('YYYY-MM-DDTHH:mm:ssZ');
     }
     get(id:string){
     	return this.UserModel.findById(id);

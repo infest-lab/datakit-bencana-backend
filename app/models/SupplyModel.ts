@@ -6,9 +6,10 @@ const supplySchema = new Schema({
 	name: String,
 	qty: Number,
 	unit: String,
-	createdAt: String,
-	modifiedAt: String,
+	createdAt: Date,
+	modifiedAt: Date,
 	verified: Boolean,
+	verifiedBy: { type: Schema.Types.ObjectId, ref: 'User' },
 	point: { type: Schema.Types.ObjectId, ref: 'Point' },
 	user: { type: Schema.Types.ObjectId, ref: 'User' },
 });

@@ -10,9 +10,10 @@ interface IPoint {
 	phone: String;
 	notes: String;
 	verified: Boolean;
+	verifiedBy: String;
 	user: String;
-	createdAt: String;
-	modifiedAt: String;
+	createdAt: Date;
+	modifiedAt: Date;
 }
 
 interface IDemand {
@@ -20,11 +21,13 @@ interface IDemand {
 	qty: Number;
 	unit: String;
 	verified: Boolean;
+	verifiedBy: String;
 	closed: Boolean;
+	closedBy: String;
 	user: String;
 	point: String;
-	createdAt: String;
-	modifiedAt: String;
+	createdAt: Date;
+	modifiedAt: Date;
 }
 
 interface ISupply{
@@ -32,6 +35,7 @@ interface ISupply{
 	qty: Number;
 	unit: String;
 	verified: Boolean;
+	verifiedBy: String;
 	user: String;
 	point: String;
 	createdAt: String;
@@ -43,10 +47,11 @@ interface IActivity{
 	description: String;
 	date: String;
 	verified: Boolean;
+	verifiedBy: String;
 	user: String;
 	point: String;
-	createdAt: String;
-	modifiedAt: String;
+	createdAt: Date;
+	modifiedAt: Date;
 }
 
 interface IDemography{
@@ -56,11 +61,12 @@ interface IDemography{
 	children: Number;
 	lansia: Number;
 	adult: Number;
-	verified: Boolean,
+	verified: Boolean;
+	verifiedBy: String;
 	user: String;
 	point: String;
-	createdAt: String;
-	modifiedAt: String;
+	createdAt: Date;
+	modifiedAt: Date;
 }
 interface IUserProfile{
 	gender: String;
@@ -73,8 +79,13 @@ interface IUser{
 	email: String;
 	phone: String;
 	profile: IUserProfile;
-	createdAt: String;
-	modifiedAt: String;
+	createdAt: Date;
+	modifiedAt: Date;
+}
+
+interface ICategory{
+	_id: String
+	pointCount: Number
 }
 
 export {
@@ -84,6 +95,7 @@ export {
 	IActivity,
 	IDemography,
 	IUserProfile,
-	IUser
+	IUser,
+	ICategory
 }
 //export default IPerson

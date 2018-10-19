@@ -8,7 +8,8 @@ import {
 	IActivity,
 	IDemography,
 	IUserProfile,
-	IUser
+	IUser,
+    ICategory
 } from './Interfaces';
 import {
 	IPointDocument,
@@ -39,7 +40,7 @@ class PointService {
         moment.tz.setDefault("Asia/Jakarta");
     }
     getDate(){ 
-        return moment().format('YYYY-MM-DDTHH:mm:ssZz');
+        return moment().format('YYYY-MM-DDTHH:mm:ssZ');
     }
     add(point:IPoint){
     	return this.PointModel.create(point);
@@ -85,7 +86,26 @@ class PointService {
             suppliesCount: this.SupplyModel.countDocuments(),
             activitiesCount: this.ActivityModel.countDocuments()
         }
-    }    
+    }
+    category():mongoose.Aggregate<ICategory[]>{
+        return PointModel.aggregate([
+            {$group:{_id:{category:'$category'}, pointCount:{$sum:1}}},
+            {$sort:{pointCount:-1}}
+            ]);
+    }
+    verify(id:string, user:string){
+        return this.PointModel.findById(id)
+        .then(point=>{
+            if(user != point.user){
+                point.verified = true;
+                point.verifiedBy = user;
+                point.modifiedAt = this.getDate();
+                return point.save();
+            }else return null;            
+        }).catch(err=>{
+            if(err) return null;
+        })
+    }
 
 }
 

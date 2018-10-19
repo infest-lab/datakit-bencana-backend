@@ -15,7 +15,7 @@ class DemandService {
         moment.tz.setDefault("Asia/Jakarta");
     }
     getDate(){ 
-        return moment().format('YYYY-MM-DDTHH:mm:ssZz');
+        return moment().format('YYYY-MM-DDTHH:mm:ssZ');
     }
     get(id:string){
     	return this.DemandModel.findById(id);
@@ -30,24 +30,32 @@ class DemandService {
 		demand.modifiedAt = this.getDate();
     	return this.DemandModel.create(demand);
     }
-    verify(id:string){
+    verify(id:string, user:string){
     	return this.DemandModel.findById(id)
     	.then(demand=>{
-    		demand.verified = true;
-    		demand.modifiedAt = this.getDate();
-    		return demand.save();
+            console.log('params:', user);
+            console.log('db:', demand.user);
+            if(user != demand.user){
+                demand.verified = true;
+                demand.verifiedBy = user;
+                demand.modifiedAt = this.getDate();
+                return demand.save();
+            }else{
+                return null;
+            }   		
     	}).catch(err=>{
-    		return false;
+    		if(err)return null;
     	})
     }
-    close(id:string){
+    close(id:string, user:string){
     	return this.DemandModel.findById(id)
     	.then(demand=>{
-    		demand.closed = true;
+            demand.closed = true;
+            demand.closedBy = user;
     		demand.modifiedAt = this.getDate();
     		return demand.save();
     	}).catch(err=>{
-    		return false;
+    		if(err) return null;
     	})
     }
     getUser(id:string){

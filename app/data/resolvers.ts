@@ -58,6 +58,9 @@ const resolvers = {
 			
 			return PointService.search(args.q);
 		},
+		pointCategory(_:any, args:any, context:any){
+			return PointService.category();
+		},		
 		pointsByCategory(_:any, {category}: any, context:any){
 			//////if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
@@ -93,7 +96,7 @@ const resolvers = {
 		activities(_:any, {pointId}:any, context:any){
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
-			return SupplyService.byPoint(pointId);
+			return ActivityService.byPoint(pointId);
 		},
 		lastDemography(_:any, {pointId}:any, context:any){
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
@@ -122,15 +125,15 @@ const resolvers = {
 		    	return new Error(err);
 		    });
 		},
-		verifyDemand(_:any, {id}:any, context:any){
+		verifyDemand(_:any, {id, user}:any, context:any){
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 						
-		    return DemandService.verify(id);
+		    return DemandService.verify(id, user);
 		},
-		closeDemand(_:any, {id}:any, context:any){	
+		closeDemand(_:any, {id, user}:any, context:any){	
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 					
-		    return DemandService.close(id);
+		    return DemandService.close(id, user);
 		},
 		addSupply(_:any, {input}:any, context:any){
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
@@ -138,26 +141,29 @@ const resolvers = {
 			return SupplyService.add(input).then(created => {
 		    	pubsub.publish(SUPPLY_ADDED, { supplyAdded: created });
 		    	return created;
+		    }).catch(err=>{
+		    	return new Error(err);
 		    });
 		},
-		verifySupply(_:any, {id}:any, context:any){
+		verifySupply(_:any, {id, user}:any, context:any){
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 						
-		    return SupplyService.verify(id);
+		    return SupplyService.verify(id, user);
 		},
 		addActivity(_:any, {input}:any, context:any){
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 			
-			pubsub.publish(ACTIVITY_ADDED, { activityAdded: input });
 			return ActivityService.add(input).then(created => {
 		    	pubsub.publish(ACTIVITY_ADDED, { activityAdded: created });
 		    	return created;
+		    }).catch(err=>{
+		    	return new Error(err);
 		    });
 		},
-		verifyActivity(_:any, {id}:any, context:any){
+		verifyActivity(_:any, {id, user}:any, context:any){
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 						
-		    return ActivityService.verify(id);
+		    return ActivityService.verify(id, user);
 		},
 		addDemography(_:any, {input}:any, context:any){
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
@@ -165,12 +171,14 @@ const resolvers = {
 			return DemographyService.add(input).then(created => {
 		    	pubsub.publish(DEMOGRAPHY_ADDED, { demographyAdded: created });
 		    	return created;
+		    }).catch(err=>{
+		    	return new Error(err);
 		    });
 		},
-		verifyDemography(_:any, {id}:any, context:any){	
+		verifyDemography(_:any, {id, user}:any, context:any){	
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
 				
-		    return DemographyService.verify(id);
+		    return DemographyService.verify(id, user);
 		},
 		createUser(_:any, {input}:any, context:any){
 			//if(!validRequest(context)) return new Error('Forbidden Access. It needs valid api key for authentication');
@@ -200,21 +208,41 @@ const resolvers = {
 	Demand:{
 		user(demand:any){
 			return DemandService.getUser(demand.user);
+		},
+		verifiedBy(demand:any){
+			return DemandService.getUser(demand.verifiedBy);
+		},
+		closedBy(demand:any){
+			return DemandService.getUser(demand.closedBy);
 		}
 	},
 	Supply:{
 		user(supply:any){
 			return SupplyService.getUser(supply.user);
+		},
+		verifiedBy(supply:any){
+			return SupplyService.getUser(supply.verifiedBy);
 		}
 	},
 	Demography:{
 		user(demography:any){
 			return DemographyService.getUser(demography.user);
+		},
+		verifiedBy(demography:any){
+			return DemographyService.getUser(demography.verifiedBy);
 		}
 	},
 	Activity:{
 		user(activity:any){
 			return ActivityService.getUser(activity.user);
+		},
+		verifiedBy(activity:any){
+			return ActivityService.getUser(activity.verifiedBy);
+		}
+	},
+	Category:{
+		name(point:any){
+			return point._id.category;
 		}
 	}
 }

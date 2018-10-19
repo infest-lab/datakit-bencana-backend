@@ -11,7 +11,7 @@ class SupplyService {
         moment.tz.setDefault("Asia/Jakarta");
     }
     getDate(){ 
-        return moment().format('YYYY-MM-DDTHH:mm:ssZz');
+        return moment().format('YYYY-MM-DDTHH:mm:ssZ');
     }
     get(id:string){
     	return this.SupplyModel.findById(id);
@@ -25,14 +25,16 @@ class SupplyService {
 		supply.modifiedAt = this.getDate();
     	return this.SupplyModel.create(supply);
     }
-    verify(id:string){
+    verify(id:string, user:string){
     	return this.SupplyModel.findById(id)
     	.then(supply=>{
+            if(user == supply.user) return null;
     		supply.verified = true;
+            supply.verifiedBy = user;
     		supply.modifiedAt = this.getDate();
     		return supply.save();
     	}).catch(err=>{
-    		return false;
+    		if(err) return null;
     	})
     }
     getUser(id:string){

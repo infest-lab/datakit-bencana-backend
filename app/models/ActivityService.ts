@@ -11,7 +11,7 @@ class ActivityService {
         moment.tz.setDefault("Asia/Jakarta");
     }
     getDate(){ 
-        return moment().format('YYYY-MM-DDTHH:mm:ssZz');
+        return moment().format('YYYY-MM-DDTHH:mm:ssZ');
     }
     get(id:string){
     	return this.ActivityModel.findById(id);
@@ -25,14 +25,17 @@ class ActivityService {
 		activity.modifiedAt = this.getDate();
     	return this.ActivityModel.create(activity);
     }
-    verify(id:string){
+    verify(id:string, user:string){
     	return this.ActivityModel.findById(id)
     	.then(activity=>{
-    		activity.verified = true;
-    		activity.modifiedAt = this.getDate();
-    		return activity.save();
+            if(user != activity.user){
+                activity.verified = true;
+                activity.verifiedBy = user;
+                activity.modifiedAt = this.getDate();
+                return activity.save();
+            }else return null;		
     	}).catch(err=>{
-    		return false;
+    		if(err) return null;
     	})
     }
     getUser(id:string){

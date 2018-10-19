@@ -11,7 +11,7 @@ class DemographyService {
         moment.tz.setDefault("Asia/Jakarta");
     }
     getDate(){ 
-        return moment().format('YYYY-MM-DDTHH:mm:ssZz');
+        return moment().format('YYYY-MM-DDTHH:mm:ssZ');
     }
     get(id:string){
     	return this.DemographyModel.findById(id);
@@ -25,14 +25,17 @@ class DemographyService {
 		biography.modifiedAt = this.getDate();
     	return this.DemographyModel.create(biography);
     }
-    verify(id:string){
+    verify(id:string, user:string){
     	return this.DemographyModel.findById(id)
     	.then(biography=>{
-    		biography.verified = true;
-    		biography.modifiedAt = this.getDate();
-    		return biography.save();
+            if(user != biography.user){
+                biography.verified = true;
+                biography.verifiedBy = user;
+                biography.modifiedAt = this.getDate();
+                return biography.save();
+            }else return null;  		
     	}).catch(err=>{
-    		return false;
+    		if(err) return null;
     	})
     }
     getUser(id:string){

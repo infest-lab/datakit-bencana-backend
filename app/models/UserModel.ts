@@ -14,8 +14,8 @@ const UserSchema = new Schema({
 	email: String,
 	phone: String,
 	profile: UserProfileSchema,
-	createdAt: String,
-	modifiedAt: String,
+	createdAt: Date,
+	modifiedAt: Date,
 	verified: Boolean
 });
 

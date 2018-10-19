@@ -9,9 +9,10 @@ const demographySchema = new Schema({
 	children: Number,
 	lansia: Number,
 	adult: Number,
-	createdAt: String,
-	modifiedAt: String,
+	createdAt: Date,
+	modifiedAt: Date,
 	verified: Boolean,
+	verifiedBy: { type: Schema.Types.ObjectId, ref: 'User' },
 	point: { type: Schema.Types.ObjectId, ref: 'Point' },
 	user: { type: Schema.Types.ObjectId, ref: 'User' },
 });
