@@ -102,7 +102,7 @@ class PointService {
                 point.modifiedAt = this.getDate();
                 return point.save();
             }else return new Error('Error verify');            
-        }).catch(err:any=>{
+        }).catch((err:any)=>{
             if(err) return new Error('Error verify');
         })
     }

@@ -33,7 +33,7 @@ class SupplyService {
             supply.verifiedBy = user;
     		supply.modifiedAt = this.getDate();
     		return supply.save();
-    	}).catch(err:any=>{
+    	}).catch((err:any)=>{
     		if(err) return new Error('Error verify');
     	})
     }
