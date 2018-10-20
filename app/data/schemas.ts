@@ -184,14 +184,14 @@ type Query{
 	#searchPoints(args: SearchFields) : [Point]
 	search(q: String!): [Point]
 	pointsByCategory(category: String!): [Point]
-	pointCategory(): [Category]
 	getUser(email: String!): User
 	getUsers(limit: Int, skip: Int, orderBy: String, asc: Boolean): [User]
 	demands(pointId: ID!): [Demand]
 	supplies(pointId: ID!): [Supply]
 	activities(pointId: ID!): [Activity]
 	lastDemography(pointId: ID!): Demography
-	statistik(): Statistik
+	statistik: Statistik
+	pointCategory: [Category]	
 }
 type Mutation{
 	createPoint(input: PointInput!): Point
