@@ -28,14 +28,16 @@ class SupplyService {
     verify(id:string, user:string){
     	return this.SupplyModel.findById(id)
     	.then(supply=>{
-            if(user == supply.user) return new Error('Error verify');
-    		supply.verified = true;
-            supply.verifiedBy = user;
-    		supply.modifiedAt = this.getDate();
-    		return supply.save();
-    	}).catch((err:any)=>{
+            /*if(user == supply.user) return new Error('Error verify');*/
+            if(user != supply.user){
+                supply.verified = true;
+                supply.verifiedBy = user;
+                supply.modifiedAt = this.getDate();
+                return supply.save();
+            }    		
+    	})/*.catch((err:any)=>{
     		if(err) return new Error('Error verify');
-    	})
+    	})*/
     }
     getUser(id:string){
     	return this.UserModel.findById(id);

@@ -40,10 +40,10 @@ class DemandService {
                 demand.verifiedBy = user;
                 demand.modifiedAt = this.getDate();
                 return demand.save();
-            }else return new Error('Error verify'); 		
-    	}).catch((err:any)=>{
+            }/*else return new Error('Error verify'); */		
+    	})/*.catch((err:any)=>{
     		if(err) return new Error('Error verify');
-    	})
+    	})*/
     }
     close(id:string, user:string){
     	return this.DemandModel.findById(id)

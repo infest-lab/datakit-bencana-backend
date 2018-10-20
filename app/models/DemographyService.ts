@@ -33,10 +33,10 @@ class DemographyService {
                 biography.verifiedBy = user;
                 biography.modifiedAt = this.getDate();
                 return biography.save();
-            }else return new Error('Error verify');  		
-    	}).catch((err:any)=>{
+            }/*else return new Error('Error verify');*/  		
+    	})/*.catch((err:any)=>{
     		if(err) return new Error('Error verify');
-    	})
+    	})*/
     }
     getUser(id:string){
     	return this.UserModel.findById(id);
