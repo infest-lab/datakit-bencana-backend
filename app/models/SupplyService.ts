@@ -28,7 +28,7 @@ class SupplyService {
     verify(id:string, user:string){
     	return this.SupplyModel.findById(id)
     	.then(supply=>{
-            if(user == supply.user) return null;
+            if(user == supply.user) return new Error('Error verify');
     		supply.verified = true;
             supply.verifiedBy = user;
     		supply.modifiedAt = this.getDate();

@@ -101,9 +101,9 @@ class PointService {
                 point.verifiedBy = user;
                 point.modifiedAt = this.getDate();
                 return point.save();
-            }else return null;            
+            }else return new Error('Error verify');            
         }).catch(err=>{
-            if(err) return null;
+            if(err) return err;
         })
     }
 
