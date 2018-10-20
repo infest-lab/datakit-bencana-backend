@@ -41,8 +41,8 @@ class DemandService {
                 demand.modifiedAt = this.getDate();
                 return demand.save();
             }else return new Error('Error verify'); 		
-    	}).catch(err=>{
-    		if(err)return err;
+    	}).catch(err:any=>{
+    		if(err) return new Error('Error verify');
     	})
     }
     close(id:string, user:string){
@@ -52,8 +52,8 @@ class DemandService {
             demand.closedBy = user;
     		demand.modifiedAt = this.getDate();
     		return demand.save();
-    	}).catch(err=>{
-    		if(err) return err;
+    	}).catch(err:any=>{
+    		if(err) return new Error('Error verify');
     	})
     }
     getUser(id:string){

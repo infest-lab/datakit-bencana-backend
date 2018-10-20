@@ -34,8 +34,8 @@ class ActivityService {
                 activity.modifiedAt = this.getDate();
                 return activity.save();
             }else return new Error('Error verify');		
-    	}).catch(err=>{
-    		if(err) return err;
+    	}).catch(err:any=>{
+    		if(err) return new Error('Error verify');
     	})
     }
     getUser(id:string){
